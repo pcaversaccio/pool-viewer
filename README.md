@@ -2,7 +2,39 @@
 Similar to a block explorer, but focused only on recent data. The exact definition of *recent* remains subject to discussion.
 
 ## Recent Data
-TBD
+Recent data should include:
+> *Important caveat:* Staking ETH permits the staker to act as a validator on Ethereum's proof-of-stake (PoS) beacon chain, to support the Ethereum 2.0 upgrade, and to be eligible to earn staking rewards. The staked ETH (sETH2) **cannot** be un-staked and neither sETH2 nor any reward ETH2 may be transferred on the Ethereum network at this time. Thus, any transaction information, as we know it from e.g. Etherscan, will be subject to the implementation of Phase 1.5/2.0.
+> - **Phase 1.5:** The legacy Ethereum chain becomes a shard on the new Ethereum blockchain. Expected end of 2021/early 2022. In this phase, the legacy Ethereum network will transition to a PoS network and be connected to the main Ethereum 2 chain.
+> - **Phase 2:** The shards are fully functioning. Expected 2022+. The shard chains will be fully functioning and able to communicate with each other and run smart contracts.
+> 
+> The [`BeaconBlockBody`](https://github.com/ethereum/eth2.0-specs/blob/dev/specs/phase0/beacon-chain.md#beaconblockbody) currently consists of the following information that needs to be validated:
+> ```python
+> class BeaconBlockBody(Container):
+>    randao_reveal: BLSSignature
+>    eth1_data: Eth1Data  # Eth1 data vote
+>    graffiti: Bytes32  # Arbitrary data
+>    # Operations
+>    proposer_slashings: List[ProposerSlashing, MAX_PROPOSER_SLASHINGS]
+>    attester_slashings: List[AttesterSlashing, MAX_ATTESTER_SLASHINGS]
+>    attestations: List[Attestation, MAX_ATTESTATIONS]
+>    deposits: List[Deposit, MAX_DEPOSITS]
+>    voluntary_exits: List[SignedVoluntaryExit, MAX_VOLUNTARY_EXITS]
+>```
+- **General:**
+  - Total number of validators
+  - Total number of pending validators
+  - Total amount of ETH staked
+  - Average account balance
+  - Current slot
+  - The most recent epoch
+  - The most recent finalised epoch
+- **At epoch level:**
+  - Count of attestations per epoch number
+  - Finality of epoch
+  - Age of epoch
+  - Percentage of validator participation in the given epoch
+- **At slot level:**
+  - TBD
 
 ## Ethereum 2.0 APIs
 As summarised on the wishlist of the [Ecosystem Support Program](https://esp.ethereum.foundation/en/wishlist/), there are multiple ways to connect with the Ethereum 2.0 blockchain:
