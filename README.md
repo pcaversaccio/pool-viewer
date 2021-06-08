@@ -1,9 +1,21 @@
 # Pool Viewer for Ethereum 2.0
 Similar to a block explorer, but focused only on recent data. The exact definition of *recent* remains subject to discussion.
 
+## Ethereum 2.0 Background - Beacon Chain
+> Most of the information in this section is based on inputs from one of the best (non-too-technical) articles on Ethereum 2.0: [The Beacon Chain Ethereum 2.0 explainer you need to read first](https://ethos.dev/beacon-chain/). I strongly recommend anyone who wants to dive deeper to read the article carefully.
+
+The beacon chain provides the heartbeat to Ethereum 2.0. It provides the tempo and rhythm for the system's harmony and consensus. Each **slot** is *12 seconds* and an **epoch** is 32 slots (*6.4 minutes*). Think of a slot as a chance for a block to be added to the beacon chain and shards. You can imagine that the beacon chain and shard chains are choreographed in lockstep. Every 12 seconds, one beacon (chain) block and 64 shard blocks are added when the system is running optimally. Thus, each beacon block can contain up to 64 crosslinks (a crosslink is a reference in a beacon block to a shard block). Also, a slot is like the block time, but slots can be empty. Eventually, an epoch is a bundle of up to 32 slots (blocks) and is only considered finalised after the progression of two more epochs after it (i.e. *12.8 minutes*).  
+
+While proof-of-work (PoW) is associated with miners, in Ethereum 2.0 validators are proof-of-stake (PoS) **virtual miners**. **Validators** are actively participating in the consensus of the Ethereum 2.0 protocol. Validators are virtual and are activated by stakers. Each validator has a maximum balance of *32 ETH*, but stakers can stake all their ETH. For every 32 ETH staked, one validator is activated.
+
+A block **proposer** is a validator that has been pseudorandomly selected to build a block. Furthermore, most of the time, validators are **attesters** that vote on beacon blocks and shard blocks. These votes are recorded in the beacon shain. The votes determine the head of the beacon chain, and the heads of shards.
+
+A **committee** is a group of validators. For security, each slot (in the beacon chain and each shard) has committees of at least 128 validators. At every epoch, validators are evenly divided across slots and then subdivided into committees of appropriate size. All of the validators from that slot attest to the beacon chain head. Each of the committees in that slot attempts to crosslink a particular shard. A shuffling algorithm scales up or down the number of committees per slot to get at least 128 validators per committee.
+
+With this basic information, we can now proceed to evaluate what data can be included in the pool viewer. *Caveat:* sharding is not yet live and therefore out of scope in the current setup (see [Future Work](#future-work)).
+
 ## Recent Data
-Recent data should include:
-> *Important caveat:* Staking ETH permits the staker to act as a validator on Ethereum's proof-of-stake (PoS) beacon chain, to support the Ethereum 2.0 upgrade, and to be eligible to earn staking rewards. The staked ETH (sETH2) **cannot** be un-staked and neither sETH2 nor any reward ETH2 may be transferred on the Ethereum network at this time. Thus, any transaction information, as we know it from e.g. Etherscan, will be subject to the implementation of Phase 1.5/2.0.
+> *Important caveat:* Staking ETH permits the staker to act as a validator on Ethereum's PoS beacon chain, to support the Ethereum 2.0 upgrade, and to be eligible to earn staking rewards. The staked ETH (sETH2) **cannot** be un-staked and neither sETH2 nor any reward ETH2 may be transferred on the Ethereum network at this time. Thus, any transaction information, as we know it from e.g. Etherscan, will be subject to the implementation of Phase 1.5/2.0.
 > - **Phase 1.5:** The legacy Ethereum chain becomes a shard on the new Ethereum blockchain. Expected end of 2021/early 2022. In this phase, the legacy Ethereum network will transition to a PoS network and be connected to the main Ethereum 2 chain.
 > - **Phase 2:** The shards are fully functioning. Expected 2022+. The shard chains will be fully functioning and able to communicate with each other and run smart contracts.
 > 
@@ -20,19 +32,27 @@ Recent data should include:
 >    deposits: List[Deposit, MAX_DEPOSITS]
 >    voluntary_exits: List[SignedVoluntaryExit, MAX_VOLUNTARY_EXITS]
 >```
+Recent data should include:
 - **General:**
   - Total number of validators
   - Total number of pending validators
-  - Total amount of ETH staked
+  - Total amount of ETH staked & benchmark to current overall ETH supply
   - Average account balance
   - Current slot
   - The most recent epoch
   - The most recent finalised epoch
 - **At epoch level:**
-  - Count of attestations per epoch number
+  - Total number of attestations
+  - Total number of proposed blocks
+  - Percentage of validator participation in the given epoch
   - Finality of epoch
   - Age of epoch
-  - Percentage of validator participation in the given epoch
+  - Total amount of eligible voting ETH
+  - Total amount of used eligible voting ETH
+  - Total amount of new validator deposits
+  - Proposer slashing event(s)
+  - Attester slashing event(s)
+  - Validator exit(s)
 - **At slot level:**
   - TBD
 
@@ -66,6 +86,9 @@ As summarised on the wishlist of the [Ecosystem Support Program](https://esp.eth
 
 ### Proposed Path
 The focus of this project is the user-friendly visualisation of recent Ethereum 2.0 transactions and not the technical backbone of Ethereum 2.0 itself. Therefore, we will avoid using a networking REPL or Gossipsub protocol directly. To ensure a sustainable implementation with minimal technical debt and at the same time preserve the open-source notion, it is preferable that we wait until a standardised Ethereum 2.0 API is built into the node implementations. This will allow developers to clone the repository and link their own node implementation without any complex reconfigurations in the future. From a risk management point of view, in the long run we should have a combination of different node implementations (2-3 different implementations) & third-party APIs to avoid wrong visualisations (which could be caused by a faulty implementation). However, if standardisation of the API takes too long, I would suggest starting with the Prysm implementation.
+
+## Future Work
+The current pool viewer is constrained by the speed of Ethereum's 2.0 development and the basic PoS beacon chain data. It is crucial that once sharding, *the Merge*, and account & smart contract functionality is implemented, all the necessary transaction and per-shard data needs to be included in the pool viewer. So one could (visually) zoom into the epoch, then into the slot, and finally into the shard level with all transaction & additional operational data.
 
 ## License
 The `pool-viewer` implementation is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), also included in our repository in the [`LICENSE`](https://github.com/pcaversaccio/pool-viewer/blob/main/LICENSE) file.
