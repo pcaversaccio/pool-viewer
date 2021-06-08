@@ -8,7 +8,7 @@ The beacon chain provides the heartbeat to Ethereum 2.0. It provides the tempo a
 
 While proof-of-work (PoW) is associated with miners, in Ethereum 2.0 validators are proof-of-stake (PoS) **virtual miners**. **Validators** are actively participating in the consensus of the Ethereum 2.0 protocol. Validators are virtual and are activated by stakers. Each validator has a maximum balance of *32 ETH*, but stakers can stake all their ETH. For every 32 ETH staked, one validator is activated.
 
-A block **proposer** is a validator that has been pseudorandomly selected to build a block. Furthermore, most of the time, validators are **attesters** that vote on beacon blocks and shard blocks. These votes are recorded in the beacon shain. The votes determine the head of the beacon chain, and the heads of shards.
+A block **proposer** is a validator that has been pseudorandomly selected to build a block. Furthermore, most of the time, validators are **attesters** that vote on beacon blocks and shard blocks. These votes are recorded in the beacon chain. The votes determine the head of the beacon chain, and the heads of shards.
 
 A **committee** is a group of validators. For security, each slot (in the beacon chain and each shard) has committees of at least 128 validators. At every epoch, validators are evenly divided across slots and then subdivided into committees of appropriate size. All of the validators from that slot attest to the beacon chain head. Each of the committees in that slot attempts to crosslink a particular shard. A shuffling algorithm scales up or down the number of committees per slot to get at least 128 validators per committee.
 
@@ -42,6 +42,7 @@ Recent data should include:
   - The most recent epoch
   - The most recent finalised epoch
 - **At epoch level:**
+  - Epoch number
   - Total number of attestations
   - Total number of proposed blocks
   - Percentage of validator participation in the given epoch
@@ -54,7 +55,17 @@ Recent data should include:
   - Attester slashing event(s)
   - Validator exit(s)
 - **At slot level:**
-  - TBD
+  - Slot number
+  - Epoch number
+  - Status
+  - Graffiti message (fun message)
+  - Attestations 
+  - Proposer
+  - Details on block votes (slot number, committee index, validator addresses)
+  - Details on attestations in slot (slot number, committee index & indices)
+  - All cryptographic information (e.g. state root, RANDAO reveal etc.)
+  
+**Important:** The overall aim of this project is to reduce complexity and increase insights by visualisations. Therefore, the focus is heavily on the dimensions which provide insights and can be visualised rather than the cryptographic information (that can be retrieved by e.g. [BeaconScan](https://beaconscan.com/) or [beaconcha.in](https://beaconcha.in/)).
 
 ## Ethereum 2.0 APIs
 As summarised on the wishlist of the [Ecosystem Support Program](https://esp.ethereum.foundation/en/wishlist/), there are multiple ways to connect with the Ethereum 2.0 blockchain:
