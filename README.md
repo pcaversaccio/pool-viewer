@@ -116,4 +116,4 @@ Based on our knowledge and our ideas we have already designed a mockup of the **
 The current **Pool Viewer** is constrained by the speed of Ethereum's 2.0 development and the basic PoS beacon chain data. It is crucial that once *the Merge*, sharding, and account & smart contract functionality is implemented, all the necessary transaction and per-shard data needs to be included in the **Pool Viewer**. So one could (visually) zoom into the epoch, then into the slot, and finally into the shard level with all transaction & additional operational data.
 
 ## 7. License
-The `pool-viewer` implementation is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), also included in our repository in the [`LICENSE`](https://github.com/pcaversaccio/pool-viewer/blob/main/LICENSE) file.
+The [`pool-viewer`](https://github.com/pcaversaccio/pool-viewer) implementation is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), also included in our repository in the [`LICENSE`](https://github.com/pcaversaccio/pool-viewer/blob/main/LICENSE) file.
