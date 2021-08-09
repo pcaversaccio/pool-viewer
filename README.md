@@ -95,7 +95,7 @@ As summarised on the wishlist of the [Ecosystem Support Program](https://esp.eth
   - [Cortex](https://github.com/NethermindEth/cortex) - C# (.NET) Ethereum 2.0 node implementation
   - [Lodestar](https://github.com/ChainSafe/lodestar) - TypeScript Ethereum 2.0 node implementation
   - [Trinity](https://github.com/ethereum/trinity) - Python Ethereum 2.0 node implementation
-  > There is an effort to standardise an Ethereum 2.0 API for all node implementations [here](https://github.com/ethereum/eth2.0-apis), and all the above nodes are currently working on implementing it into their codebase. However, for the meantime, they use client-specific APIs. E.g. in the [Prysm](https://docs.prylabs.network/docs/how-prysm-works/ethereum-2-public-api) beacon node, [`ethereumapis`](https://github.com/prysmaticlabs/ethereumapis) is the only supported API schema currently.
+  > There is an effort to standardise an Ethereum 2.0 API for all node implementations [here](https://github.com/ethereum/eth2.0-apis), and all the above nodes are currently working on implementing it into their codebase. However, for the meantime, they use client-specific APIs. E.g. in the [Prysm](https://docs.prylabs.network/docs/how-prysm-works/prysm-public-api) beacon node, [`ethereumapis`](https://github.com/prysmaticlabs/ethereumapis) is the currently supported client-specific API schema.
 - **Third-Party API Providers:** Another option would be to retrieve all the necessary data via third-party API providers such as [Infura](https://infura.io) or [Alechemy](https://www.alchemy.com). Infura already provides an API service via a [Teku node implementation](https://infura.io/docs/eth2).
 
 ### 3.1 Proposed Path
